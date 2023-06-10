@@ -13,7 +13,7 @@
     <script src="https://telegram.org/js/telegram-web-app.js?1"></script>
     <script>
         function getQueryParam(param) {
-            const queryString = encodeURI(window.location.search);
+            const queryString = window.location.search;
             const urlParams = new URLSearchParams(queryString);
             return urlParams.get(param);
         }
@@ -337,9 +337,11 @@
         tg.onEvent('themeChanged', setThemeClass);
         setThemeClass();
 
-        document.getElementById("productImage").src = getQueryParam('image');
-        document.getElementById("productName").textContent = getQueryParam('name');
-        document.getElementById("productDescription").textContent = truncateString(getQueryParam('description'));
+        let product = JSON.parse(decodeString(getQueryParam('product')));
+
+        document.getElementById("productImage").src = product.image;
+        document.getElementById("productName").textContent = product.name;
+        document.getElementById("productDescription").textContent = truncateString(product.description);
 
         let sendName = document.getElementById("sendName");
         let messageData = document.getElementById("messageData");
@@ -380,13 +382,26 @@
             let name = document.getElementById("name").value;
             let msg = document.getElementById("data").value;
             let data = {
-                id: getQueryParam('id'),
+                id: product.id,
                 name: name,
                 msg: msg
             }
             tg.sendData(JSON.stringify(data));
             tg.close();
         });
+
+        function decodeString(encodedString) {
+            var decodedString = "";
+
+            for (var i = 0; i < encodedString.length; i++) {
+                var encodedChar = encodedString.charAt(i);
+                var decodedChar = String.fromCharCode(encodedChar.charCodeAt(0) - 97 + 65);
+
+                decodedString += decodedChar;
+            }
+
+            return decodedString;
+        }
     </script>
 
 </body>
