@@ -52,15 +52,50 @@
             background: var(--tg-theme-bg-color);
             color: var(--tg-theme-text-color);
         }
+
+        .container {
+            display: flex;
+            align-items: center;
+            font-family: "Roboto Medium", sans-serif;
+            justify-content: flex-start;
+            padding: 10px;
+            border-bottom: 1px solid #CCE0FF;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
+        }
+
+        .container img {
+            margin-right: 10px;
+            width: 100px;
+        }
+
+        .container p {
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
 
-<p id="one">rule</p>
-<p id="two">rule</p>
-<p id="three">rule</p>
-<p id="four">rule</p>
-<p id="five">rule</p>
+<div class="container">
+    <img src="path_to_image" alt="Image">
+    <p id="one">rule</p>
+</div>
+<div class="container">
+    <img src="path_to_image" alt="Image">
+    <p id="two">rule</p>
+</div>
+<div class="container">
+    <img src="path_to_image" alt="Image">
+    <p id="three">rule</p>
+</div>
+<div class="container">
+    <img src="path_to_image" alt="Image">
+    <p id="four">rule</p>
+</div>
+<div class="container">
+    <img src="path_to_image" alt="Image">
+    <p id="five">rule</p>
+</div>
 
 <script>
     function setThemeClass() {
