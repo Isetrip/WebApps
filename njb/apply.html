@@ -337,11 +337,9 @@
         tg.onEvent('themeChanged', setThemeClass);
         setThemeClass();
 
-        const product = JSON.parse(getQueryParam('product'));
-
-        document.getElementById("productImage").src = product.image;
-        document.getElementById("productName").textContent = product.name;
-        document.getElementById("productDescription").textContent = truncateString(product.description);
+        document.getElementById("productImage").src = getQueryParam('image');
+        document.getElementById("productName").textContent = getQueryParam('name');
+        document.getElementById("productDescription").textContent = truncateString(getQueryParam('description'));
 
         let sendName = document.getElementById("sendName");
         let messageData = document.getElementById("messageData");
@@ -382,7 +380,7 @@
             let name = document.getElementById("name").value;
             let msg = document.getElementById("data").value;
             let data = {
-                id: product.id,
+                id: getQueryParam('id'),
                 name: name,
                 msg: msg
             }
