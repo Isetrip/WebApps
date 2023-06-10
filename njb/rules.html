@@ -11,8 +11,48 @@
     <meta name="robots" content="noindex,nofollow" />
     <title></title>
     <script src="https://telegram.org/js/telegram-web-app.js?1"></script>
-    <script src="../scripts/script.js"></script>
-    <link rel="stylesheet" type="text/css" href="../styles/style.css">
+    <script>
+        function getQueryParam(param) {
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            return urlParams.get(param);
+        }
+
+        function loadLanguageFile(lang) {
+            fetch('lang/' + lang + '.json')
+                .then(response => response.json())
+                .then(data => {
+                    for (const key in data) {
+                        const value = data[key];
+                        const element = document.querySelector('#' + key);
+                        if (element) {
+                            element.textContent = value;
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading the language file:', error);
+                });
+        }
+
+        const langParam = getQueryParam('lang');
+        if (langParam) {
+            loadLanguageFile(langParam);
+        }
+
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--tg-theme-bg-color);
+            color: var(--tg-theme-text-color);
+        }
+    </style>
 </head>
 <body>
 
