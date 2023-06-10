@@ -138,7 +138,7 @@
         }
 
         .container p {
-            font-size: 22px;
+            font-size: 30px;
             font-family: "Roboto Medium",sans-serif;
             text-align: center;
             color: var(--tg-theme-hint-color);
@@ -186,7 +186,7 @@
             margin: 0;
             width: 3rem;
             height: 3rem;
-            background: #282936;
+            background: #40414f;
             border-radius: 1.625rem;
         }
 
@@ -277,18 +277,20 @@
     </div>
 
     <script>
+        const tg = window.Telegram.WebApp;
+
         function setThemeClass() {
             document.documentElement.className = Telegram.WebApp.colorScheme;
         }
-        Telegram.WebApp.onEvent('themeChanged', setThemeClass);
+        tg.onEvent('themeChanged', setThemeClass);
         setThemeClass();
 
         const id = getQueryParam('id');
-        const tg = window.Telegram.WebApp;
 
         let sendName = document.getElementById("sendName");
         let messageData = document.getElementById("messageData");
         let button = document.getElementById("button");
+        tg.expand();
 
         sendName.addEventListener("click", () => {
             document.getElementById("error").textContent = "";
@@ -320,7 +322,7 @@
                 name: name,
                 msg: msg
             }
-            tg.sendData(data);
+            tg.sendData(JSON.stringify(data));
             tg.close();
         });
     </script>
