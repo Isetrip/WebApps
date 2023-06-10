@@ -145,6 +145,7 @@
         }
 
         .container em {
+            margin-top: 10px;
             font-size: 12px;
             font-family: "Roboto Light",sans-serif;
             text-align: center;
@@ -247,13 +248,62 @@
         button:hover .button-text {
             color: #fff;
         }
+
+        .product {
+            display: flex;
+            margin-top: 15px;
+            width: 350px;
+            height: 130px;
+            border-radius: 10px;
+            background-color: #40414f;
+            align-items: start;
+            justify-content: start;
+            flex-direction: row;
+            text-align: start;
+        }
+
+        .product img {
+            transform: translate(5px,5px);
+            width: 120px;
+            border-radius: 10px;
+        }
+
+        .product .text {
+            transform: translate(5px,5px);
+            width: 225px;
+            flex-direction: column;
+        }
+
+        .product .text H3 {
+            margin-top: 5px;
+            font-size: 18px;
+            font-family: "Roboto Light",sans-serif;
+            color: white;
+            text-align: center;
+        }
+
+        .product .text p {
+            margin-top: 10px;
+            font-size: 15px;
+            font-family: "Roboto Thin",sans-serif;
+            color: white;
+            transform: translate(10px,5px);
+            text-align: start;
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
         <p id="header">header</p>
-        <em id="error"></em>
+
+        <div class="product">
+            <img id="productImage" src="image">
+            <div class="text">
+                <H3 id="productName">name</H3>
+                <p id="productDescription">decr</p>
+            </div>
+        </div>
 
         <div class="message">
             <input id="name" title="Write Message" tabindex="i" pattern="\d+" placeholder="Message.." class="msgInput" type="text">
@@ -268,6 +318,8 @@
         <div id="messageData" class="messageData">
             <textarea id="data" title="data" placeholder="dd" name="comment" rows="5" required="" class="msgInputData"></textarea>
         </div>
+
+        <em id="error"></em>
 
         <button id="button" class="learn-more">
             <span class="circle" aria-hidden="true"><span class="icon arrow"></span></span>
@@ -285,12 +337,24 @@
         tg.onEvent('themeChanged', setThemeClass);
         setThemeClass();
 
-        const id = getQueryParam('id');
+        const product = JSON.parse(getQueryParam('product'));
+
+        document.getElementById("productImage").src = product.image;
+        document.getElementById("productName").textContent = product.name;
+        document.getElementById("productDescription").textContent = truncateString(product.description);
 
         let sendName = document.getElementById("sendName");
         let messageData = document.getElementById("messageData");
         let button = document.getElementById("button");
         tg.expand();
+
+        function truncateString(str) {
+            const maxLength = 80;
+            if (str.length > maxLength) {
+                return str.slice(0, maxLength) + "...";
+            }
+            return str;
+        }
 
         sendName.addEventListener("click", () => {
             document.getElementById("error").textContent = "";
@@ -318,7 +382,7 @@
             let name = document.getElementById("name").value;
             let msg = document.getElementById("data").value;
             let data = {
-                id: id,
+                id: product.id,
                 name: name,
                 msg: msg
             }
