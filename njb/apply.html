@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="MobileOptimized" content="176" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title></title>
+    <script src="https://telegram.org/js/telegram-web-app.js?1"></script>
+    <script>
+        function getQueryParam(param) {
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            return urlParams.get(param);
+        }
+
+        function loadLanguageFile(lang) {
+            fetch('lang/' + lang + '.json')
+                .then(response => response.json())
+                .then(data => {
+                    for (const key in data) {
+                        const value = data[key];
+                        const element = document.querySelector('#' + key);
+                        if (element) {
+                            if (element.className === 'msgInput' || element.className === 'msgInputData') {
+                                element.placeholder = value;
+                            } else {
+                                element.textContent = value;
+                            }
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading the language file:', error);
+                });
+        }
+
+        const langParam = getQueryParam('lang');
+        if (langParam) {
+            loadLanguageFile(langParam);
+        }
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--tg-theme-bg-color);
+            color: var(--tg-theme-text-color);
+        }
+
+        .messageData {
+            display: none;
+            transition: opacity 0.5s ease-in-out;
+            margin-top: 15px;
+            width: 320px;
+            height: 130px;
+            border-radius: 10px;
+            background-color: #40414f;
+            transform: translate(0px,0px);
+            box-shadow: 5px 5px #34343f;
+        }
+
+        .msgInputData {
+            font-size: 18px;
+            border-radius: 5px;
+            background-color: #40414f;
+            border: none;
+            outline: none;
+            width: 310px;
+            height: 120px;
+            transform: translate(5px,-3px);
+            color: white;
+            padding: 10px;
+            font-weight: bold;
+        }
+
+        .message {
+            margin-top: 15px;
+            width: 320px;
+            height: 40px;
+            border-radius: 10px;
+            background-color: #40414f;
+            transform: translate(0px,0px);
+            box-shadow: 5px 5px #34343f;
+        }
+
+        .msgInputData::-webkit-scrollbar {
+            display: none;
+        }
+
+        .msgInput {
+            font-size: 18px;
+            border-radius: 5px;
+            background-color: #40414f;
+            border: none;
+            outline: none;
+            width: 250px;
+            height: 30px;
+            transform: translate(5px,-3px);
+            color: white;
+            padding: 10px;
+            font-weight: bold;
+        }
+
+        .sendSVG {
+            width: 30px;
+            height: 30px;
+            border-width: 50px;
+            transform: translate(20px,5px);
+            background-size: 10px;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+
+        .sendSVG:hover {
+            background-color: #2b2b35;
+        }
+
+        .l {
+            position: absolute;
+            width: 1%;
+            height: 30px;
+            background-color: #2e2f38;
+            transform: translate(-20px,5px);
+        }
+
+        .container p {
+            font-size: 22px;
+            font-family: "Roboto Medium",sans-serif;
+            text-align: center;
+            color: var(--tg-theme-hint-color);
+        }
+
+        .container em {
+            font-size: 12px;
+            font-family: "Roboto Light",sans-serif;
+            text-align: center;
+            color: red;
+        }
+
+        .container {
+            border-radius: 10px;
+            padding: 20px;
+            width: 350px;
+            display: flex;
+            flex-direction: column;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <p id="header">header</p>
+        <em id="error"></em>
+
+    <div class="message">
+        <input id="name" title="Write Message" tabindex="i" pattern="\d+" placeholder="Message.." class="msgInput" type="text">
+        <svg id="sendName" xmlns="http://www.w3.org/2000/svg" version="1.0" width="30.000000pt" height="30.000000pt" viewBox="0 0 30.000000 30.000000" preserveAspectRatio="xMidYMid meet" class="sendSVG">
+            <g transform="translate(0.000000,30.000000) scale(0.100000,-0.100000)" fill="#ffffff70" stroke="none">
+                <path d="M44 256 c-3 -8 -4 -29 -2 -48 3 -31 5 -33 56 -42 28 -5 52 -13 52 -16 0 -3 -24 -11 -52 -16 -52 -9 -53 -9 -56 -48 -2 -21 1 -43 6 -48 10 -10 232 97 232 112 0 7 -211 120 -224 120 -4 0 -9 -6 -12 -14z"></path>
+            </g>
+        </svg>
+        <span class="l"></span>
+    </div>
+
+    <div id="messageData" class="messageData">
+        <textarea id="data" placeholder="" name="comment" rows="5" required="" class="msgInputData"></textarea>
+    </div>
+    </div>
+
+    <script>
+        function setThemeClass() {
+            document.documentElement.className = Telegram.WebApp.colorScheme;
+        }
+        Telegram.WebApp.onEvent('themeChanged', setThemeClass);
+        setThemeClass();
+
+        const id = getQueryParam('id');
+        const tg = window.Telegram.WebApp;
+
+        let sendName = document.getElementById("sendName");
+        let messageData = document.getElementById("messageData");
+
+        sendName.addEventListener("click", () => {
+            document.getElementById("error").textContent = "";
+            let name = document.getElementById("name").value;
+            if (name.length < 4) {
+                document.getElementById("error").textContent = "Name must be longer then 3!";
+                return;
+            }
+            messageData.style.display = "block";
+            messageData.style.opacity = "1";
+        });
+    </script>
+
+</body>
+</html>
