@@ -337,24 +337,10 @@
         tg.onEvent('themeChanged', setThemeClass);
         setThemeClass();
 
-        let product = JSON.parse(decodeString(getQueryParam('product')));
-
-        document.getElementById("productImage").src = product.image;
-        document.getElementById("productName").textContent = product.name;
-        document.getElementById("productDescription").textContent = truncateString(product.description);
-
         let sendName = document.getElementById("sendName");
         let messageData = document.getElementById("messageData");
         let button = document.getElementById("button");
         tg.expand();
-
-        function truncateString(str) {
-            const maxLength = 80;
-            if (str.length > maxLength) {
-                return str.slice(0, maxLength) + "...";
-            }
-            return str;
-        }
 
         sendName.addEventListener("click", () => {
             document.getElementById("error").textContent = "";
@@ -382,26 +368,13 @@
             let name = document.getElementById("name").value;
             let msg = document.getElementById("data").value;
             let data = {
-                id: product.id,
+                id: 0,
                 name: name,
                 msg: msg
             }
             tg.sendData(JSON.stringify(data));
             tg.close();
         });
-
-        function decodeString(encodedString) {
-            var decodedString = "";
-
-            for (var i = 0; i < encodedString.length; i++) {
-                var encodedChar = encodedString.charAt(i);
-                var decodedChar = String.fromCharCode(encodedChar.charCodeAt(0) - 97 + 65);
-
-                decodedString += decodedChar;
-            }
-
-            return decodedString;
-        }
     </script>
 
 </body>
