@@ -368,10 +368,10 @@
             let name = document.getElementById("name").value;
             let msg = document.getElementById("data").value;
             let data = {
-                type: 'order',
                 id: 0,
-                name: name,
-                msg: msg
+                type: 'order',
+                contact: name,
+                description: msg
             }
             tg.sendData(JSON.stringify(data));
             tg.close();
